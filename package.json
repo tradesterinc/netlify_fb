@@ -13,7 +13,6 @@
     "netlify-lambda": "^2.0.16",
     "playwright": "^1.49.1",
     "playwright-core": "^1.49.1",
-    "puppeteer-core": "^23.11.1",
-    "puppeteer": "^21.3.8"
+    "puppeteer-core": "^23.11.1"
   }
 }
