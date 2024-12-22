@@ -14,6 +14,5 @@
     "playwright": "^1.49.1",
     "playwright-core": "^1.49.1",
     "puppeteer-core": "^23.11.1",
-    "netlify-plugin-chromium":"^2.1.0"
   }
 }
