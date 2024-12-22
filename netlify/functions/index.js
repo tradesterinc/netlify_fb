@@ -6,7 +6,7 @@ const chromiumPlugin = require('netlify-plugin-chromium');
 exports.handler = async (event, context) => {
   let browser;
   try {
-    const executablePath = await chromiumPlugin.executablePath;
+    const executablePath = await chromiumPlugin.executablePath();
     browser = await puppeteer.launch({
       executablePath,
       args: chromiumPlugin.args,
