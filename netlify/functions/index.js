@@ -1,26 +1,25 @@
 const chromium = require('@sparticuz/chromium'); // Provided by Netlify's Chromium plugin
-const playwright = require('playwright-core');  // Use 'playwright-core' for custom binaries
+const puppeteer = require('puppeteer-core'); // Use 'puppeteer-core' for custom binaries
 
 exports.handler = async (event, context) => {
   let browser;
   try {
     // Launch the browser using Chromium plugin
-    browser = await playwright.chromium.launch({
-      executablePath: await process.env.CHROME_PATH, // Chromium binary provided by the plugin
+    browser = await puppeteer.launch({
+      executablePath: process.env.CHROME_PATH || await chromium.executablePath, // Chromium binary provided by the plugin
       args: chromium.args,
       headless: true, // Headless mode for serverless
     });
 
-    const context = await browser.newContext();
-    const page = await context.newPage();
+    const page = await browser.newPage();
 
     // Navigate to Facebook login page
     await page.goto('https://web.facebook.com/login');
 
     // Perform actions
-    await page.fill('#email', 'salfordopera@gmail.com');
-    await page.fill('#pass', 'Goldmedals@5');
-    await page.click('button[name="login"]');
+    await page.type('#email', 'salfordopera@gmail.com'); // Fill email field
+    await page.type('#pass', 'Goldmedals@5');            // Fill password field
+    await page.click('button[name="login"]');            // Click login button
     await page.waitForNavigation();
 
     const currentURL = page.url();
