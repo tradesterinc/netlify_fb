@@ -4,3 +4,10 @@
         publish = "netlify"
 [functions]
         node_bundler = "esbuild"
+[plugins]
+  [[plugins]]
+    package = "netlify-plugin-chromium"
+    [plugins.inputs]
+      packageManager = "npm"
+      setChromePathInEnv = false
+      failBuildOnError = true
