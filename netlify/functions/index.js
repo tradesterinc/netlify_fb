@@ -1,6 +1,5 @@
 
 const puppeteer = require("puppeteer-core");
-const chromiumPlugin = require('netlify-plugin-chromium');
 const chromium = require("@sparticuz/chromium");
 
 
