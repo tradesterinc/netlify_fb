@@ -1,7 +1,6 @@
 const chromium = require("@sparticuz/chromium");
 const puppeteer = require("puppeteer-core");
-const chromiumPlugin = require('netlify-plugin-chromium')
-const exe
+const chromiumPlugin = require('netlify-plugin-chromium');
 
 
 exports.handler = async (event, context) => {
