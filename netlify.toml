@@ -1,10 +1,6 @@
 [build]
-  command = "npm run build" # Adjust this if you don't need a build command
-  publish = "dist" # Replace with your app's build directory (if static site or app)
-  functions = "netlify/functions/" # Points to your functions folder
-
-
-
+	command = "# no build command"
+	functions = "netlify/functions"
 
 [functions]
-  directory = "netlify/functions/" # Same as above
+        node_bundler = "esbuild"
