@@ -1,24 +1,24 @@
-const chromium = require('@sparticuz/chromium'); // Provided by Netlify's Chromium plugin
-const puppeteer = require('puppeteer-core'); // Use 'puppeteer-core' for custom binaries
+const puppeteer = require('puppeteer'); // Puppeteer standalone version
 
 exports.handler = async (event, context) => {
   let browser;
   try {
-    // Launch the browser using Chromium plugin
+    // Launch the browser
     browser = await puppeteer.launch({
-      executablePath: process.env.CHROME_PATH || await chromium.executablePath, // Chromium binary provided by the plugin
-      args: chromium.args,
-      headless: true, // Headless mode for serverless
+      headless: true, // Ensure headless mode for serverless environments
+      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Required for serverless environments
     });
 
     const page = await browser.newPage();
 
     // Navigate to Facebook login page
-    await page.goto('https://web.facebook.com/login');
+    await page.goto('https://web.facebook.com/login', {
+      waitUntil: 'networkidle2', // Ensure the page loads fully
+    });
 
     // Perform actions
-    await page.type('#email', 'salfordopera@gmail.com'); // Fill email field
-    await page.type('#pass', 'Goldmedals@5');            // Fill password field
+    await page.type('#email', 'salfordopera@gmail.com'); // Fill in email
+    await page.type('#pass', 'Goldmedals@5');            // Fill in password
     await page.click('button[name="login"]');            // Click login button
     await page.waitForNavigation();
 
