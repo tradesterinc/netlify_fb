@@ -8,7 +8,7 @@ exports.handler = async (event, context) => {
     browser = await playwright.chromium.launch({
       executablePath: await process.env.CHROME_PATH, // Chromium binary provided by the plugin
       args: chromium.args,
-      headless: chromium.headless, // Headless mode for serverless
+      headless: true, // Headless mode for serverless
     });
 
     const context = await browser.newContext();
