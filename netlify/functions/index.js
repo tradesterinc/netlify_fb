@@ -1,12 +1,13 @@
 
 const puppeteer = require("puppeteer-core");
 const chromiumPlugin = require('netlify-plugin-chromium');
+const chromium = require("@sparticuz/chromium");
 
 
 exports.handler = async (event, context) => {
   let browser;
   try {
-    const executablePath = await chromiumPlugin.executablePath();
+    const executablePath = await chromium.executablePath();
     browser = await puppeteer.launch({
       executablePath,
       args: chromiumPlugin.args,
