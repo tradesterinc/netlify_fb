@@ -1,36 +1,25 @@
-const puppeteer = require('puppeteer'); // Puppeteer standalone version
+const chromium = require("@sparticuz/chromium");
+const puppeteer = require("puppeteer-core");
+const chromiumPlugin = require('netlify-plugin-chromium')
+const exe
+
 
 exports.handler = async (event, context) => {
   let browser;
   try {
-    // Launch the browser
+    const executablePath = await chromiumPlugin.executablePath;
     browser = await puppeteer.launch({
-      headless: true, // Ensure headless mode for serverless environments
-      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Required for serverless environments
+      executablePath,
+      args: chromium.args,
+      headless: chromium.headless,
     });
 
     const page = await browser.newPage();
+    await page.goto("https://example.com");
 
-    // Navigate to Facebook login page
-    await page.goto('https://web.facebook.com/login', {
-      waitUntil: 'networkidle2', // Ensure the page loads fully
-    });
-
-    // Perform actions
-    await page.type('#email', 'salfordopera@gmail.com'); // Fill in email
-    await page.type('#pass', 'Goldmedals@5');            // Fill in password
-    await page.click('button[name="login"]');            // Click login button
-    await page.waitForNavigation();
-
-    const currentURL = page.url();
-
-    // Return result
     return {
       statusCode: 200,
-      body: JSON.stringify({
-        success: !currentURL.includes('failure'),
-        url: currentURL,
-      }),
+      body: JSON.stringify({ message: "Browser launched successfully!" }),
     };
   } catch (error) {
     return {
@@ -38,8 +27,35 @@ exports.handler = async (event, context) => {
       body: JSON.stringify({ error: error.message }),
     };
   } finally {
-    if (browser) {
-      await browser.close();
-    }
+    if (browser) await browser.close();
   }
 };
+const chromium = require("@sparticuz/chromium");
+const puppeteer = require("puppeteer-core");
+
+exports.handler = async (event, context) => {
+  let browser;
+  try {
+    browser = await puppeteer.launch({
+      executablePath: chromium.executablePath || process.env.CHROME_PATH,
+      args: chromium.args,
+      headless: chromium.headless,
+    });
+
+    const page = await browser.newPage();
+    await page.goto("https://example.com");
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: "Browser launched successfully!" }),
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: error.message }),
+    };
+  } finally {
+    if (browser) await browser.close();
+  }
+};
+      
