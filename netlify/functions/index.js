@@ -1,4 +1,4 @@
-const chromium = require("@sparticuz/chromium");
+
 const puppeteer = require("puppeteer-core");
 const chromiumPlugin = require('netlify-plugin-chromium');
 
@@ -9,8 +9,8 @@ exports.handler = async (event, context) => {
     const executablePath = await chromiumPlugin.executablePath;
     browser = await puppeteer.launch({
       executablePath,
-      args: chromium.args,
-      headless: chromium.headless,
+      args: chromiumPlugin.args,
+      headless: true,
     });
 
     const page = await browser.newPage();
